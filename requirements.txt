@@ -1,0 +1,7 @@
+Django~=5.1.2
+celery~=5.4.0
+uuid~=1.30
+psycopg~=3.2.3
+psycopg[binary]~=3.2.3
+djangorestframework~=3.15.2
+djangorestframework-simplejwt~=5.3.1
