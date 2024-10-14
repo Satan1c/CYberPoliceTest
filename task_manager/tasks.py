@@ -4,8 +4,14 @@ from django.core.mail import send_mail
 
 from .models import Task, User
 
+@shared_task(name="task_manager.end_time_announcer_schedule")
+def end_time_announcer_schedule():
+	tasks = Task.gather_expiring()
+	for i in tasks:
+		end_time_announcer.delay(i.id)
 
-@shared_task
+
+@shared_task(name="task_manager.end_time_announcer")
 def end_time_announcer(task_id):
 	task = Task.find_by_id(task_id)
 	user = User.find_by_id(task.user)

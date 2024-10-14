@@ -23,6 +23,8 @@ services:
             context: .
             dockerfile: celery.Dockerfile
         container_name: celery-worker
+        command: >
+            sh -c "celery -A CyberPoliceTest beat -l info --detach && celery -A CyberPoliceTest worker -l info"
         volumes:
             - .:/app
         depends_on:

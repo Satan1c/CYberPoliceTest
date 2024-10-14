@@ -38,7 +38,17 @@ class Task(models.Model):
 	name = models.CharField(max_length=100)
 	description = models.TextField(max_length=500)
 
+	#  0 - New
+	#  1 - Progress
+	#  2 - Complete
+	#  3 - Expired
 	status = models.IntegerField(default=0)
+
+	#  0 - None
+	#  1 - Low
+	#  2 - Medium
+	#  3 - High
+	#  4 - Urgent
 	priority = models.IntegerField(default=0)
 
 	end_time = models.DateTimeField(null=True, )
@@ -60,6 +70,10 @@ class Task(models.Model):
 
 	def __str__(self):
 		return self.name
+
+	@classmethod
+	def gather_expiring(cls):
+		return list(cls.objects.filter(status__lt=2))
 
 	@classmethod
 	def find_by_id(cls, task_id: int):
