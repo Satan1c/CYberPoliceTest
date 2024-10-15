@@ -1,3 +1,5 @@
+from datetime import datetime, UTC, timedelta
+
 import django.contrib.auth.models
 from celery import shared_task
 from django.core.mail import send_mail
@@ -6,7 +8,7 @@ from .models import Task, User
 
 @shared_task(name="task_manager.end_time_announcer_schedule")
 def end_time_announcer_schedule():
-	tasks = Task.gather_expiring()
+	tasks = Task.gather_expiring(datetime.now(UTC) + timedelta(hours=1))
 	for i in tasks:
 		end_time_announcer.delay(i.id)
 

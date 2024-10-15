@@ -72,8 +72,8 @@ class Task(models.Model):
 		return self.name
 
 	@classmethod
-	def gather_expiring(cls):
-		return list(cls.objects.filter(status__lt=2))
+	def gather_expiring(cls, delta):
+		return list(cls.objects.filter(status__lt=2, end_time__lte=delta))
 
 	@classmethod
 	def find_by_id(cls, task_id: int):
